@@ -52,15 +52,6 @@ curl -ks "$SITEMAP_URL" | \
 
 echo "Warming $(cat $TMP_URL_FILE | wc -l) URLs using $PROCS processes..."
 
-cat "$TMP_URL_FILE" | \
-    xargs -P "$PROCS" -r -n 1 -- \
-        siege -b -v -c 1 -r once 2>/dev/null | \
-    sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' | \
-    grep -E '^HTTP'
-cat "$TMP_URL_FILE" | \
-    xargs -P "$PROCS" -r -n 1 -- \
-        siege -H 'Accept-Encoding: gzip' -b -v -c 1 -r once 2>/dev/null | \
-    sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' | \
-    grep -E '^HTTP'
+siege -d 4 -A "Internal_Warmer" -v -c 1 -r once -f $TMP_URL_FILE
 
 rm -f "$TMP_URL_FILE"
