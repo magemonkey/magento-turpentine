@@ -204,7 +204,7 @@ abstract class Nexcessnet_Turpentine_Model_Varnish_Configurator_Abstract {
      * @return string
      */
     public function getBaseUrlPathRegex() {
-        $pattern = '^(%s)(?:(?:index|litespeed)\\.php/)?';
+        $pattern = '^(/|%s)(?:(?:index|litespeed)\\.php/)?';
         return sprintf( $pattern, implode( '|',
             array_map( create_function( '$x', 'return preg_quote($x,"|");' ),
                 $this->_getBaseUrlPaths() ) ) );
