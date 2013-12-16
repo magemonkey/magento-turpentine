@@ -52,6 +52,6 @@ curl -ks "$SITEMAP_URL" | \
 
 echo "Warming $(cat $TMP_URL_FILE | wc -l) URLs using $PROCS processes..."
 
-siege -d 4 -A "Internal_Warmer" -v -c 1 -r once -f $TMP_URL_FILE
+siege -d 4 -A "Internal_Warmer" -l -q -c 1 -r once -f $TMP_URL_FILE
 
 rm -f "$TMP_URL_FILE"
